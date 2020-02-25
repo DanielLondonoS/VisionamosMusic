@@ -27,7 +27,11 @@ namespace VisionamosMusic.Data.DataModels
         /// <summary>
         /// Fecha de pulicacion del album
         /// </summary>
-        public DateTime PublishDate { get; set; }
+        public DateTime? PublishDate { get; set; }
+
+        public int? IdAutor { get; set; }
+
+        public virtual Author IdAutorNavigation { get; set; }
         /// <summary>
         /// Coleccion de canciones relacionadas al album
         /// </summary>

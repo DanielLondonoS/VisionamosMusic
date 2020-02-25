@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using VisionamosMusic.Models;
 
 namespace VisionamosMusic.Services.Interfaces
 {
@@ -12,5 +13,7 @@ namespace VisionamosMusic.Services.Interfaces
     /// </summary>
     public interface ISongService
     {
+        Task<(bool Resultado, string Mensaje, List<SongModel> items)> GetListSongs();
+        Task<(bool Resultado, string Mensaje, SongModel item)> AddNewSong(SongModel song);
     }
 }

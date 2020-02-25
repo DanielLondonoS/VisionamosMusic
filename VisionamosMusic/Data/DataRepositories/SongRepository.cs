@@ -12,13 +12,13 @@ namespace VisionamosMusic.Data.DataRepositories
     /// Fecha: 24/02/2020
     /// Descripcion: Clase que se encarga de administrar los datos de la tabla Song en la base de datos
     /// </summary>
-    public class SongRepository : IRepository<Song>, ISongRepository
+    public class SongRepository :  ISongRepository
     {
         #region Propiedades
         private readonly VisionamosMusicDBContext _visionamosMusicDBContext;
         #endregion
         #region Constructor
-        public AuthorRepository(VisionamosMusicDBContext visionamosMusicDBContext)
+        public SongRepository(VisionamosMusicDBContext visionamosMusicDBContext)
         {
             this._visionamosMusicDBContext = visionamosMusicDBContext;
         }
@@ -57,10 +57,41 @@ namespace VisionamosMusic.Data.DataRepositories
             {
                 var task = Task.Run(() =>
                 {
-                    var authorList = this._visionamosMusicDBContext.Song.ToList();
-                    if (authorList != null)
+                    var SongList = this._visionamosMusicDBContext.Song
+                    .Join(
+                        this._visionamosMusicDBContext.Author, 
+                        song => song.Author, 
+                        autor => autor.Id,
+                        (song, author) => new Song
+                        {
+                            Id = song.Id,
+                            Name = song.Name,
+                            Author = song.Author,
+                            AuthorNavigation = song.AuthorNavigation,
+                            AlbumNavigation = song.AlbumNavigation
+                        }
+                    ).ToList();
+
+                    
+                    //.Join(
+                    //    this._visionamosMusicDBContext.Album,
+                    //    song => song.Album,
+                    //    album => album.Id,
+                    //    (song, album) => new Song
+                    //    {
+                    //        Id = song.Id,
+                    //        Name = song.Name,
+                    //        Author = song.Author,
+                    //        AuthorNavigation = song.AuthorNavigation,
+                    //        AlbumNavigation = song.AlbumNavigation
+                    //    }
+                    //)
+
+
+                    // var authorList = this._visionamosMusicDBContext.Song..ToList();
+                    if (SongList != null)
                     {
-                        return (true, "Listado de Song encontrados", authorList);
+                        return (true, "Listado de Song encontrados", SongList);
                     }
                     else
                     {

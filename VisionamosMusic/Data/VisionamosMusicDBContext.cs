@@ -16,7 +16,9 @@ namespace VisionamosMusic.Data
 
         public virtual DbSet<Album> Album { get; set; }
         public virtual DbSet<Author> Author { get; set; }
+        public virtual DbSet<Car> Car { get; set; }
         public virtual DbSet<Song> Song { get; set; }
+        public virtual DbSet<Users> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -32,6 +34,11 @@ namespace VisionamosMusic.Data
                     .IsUnicode(false);
 
                 entity.Property(e => e.PublishDate).HasColumnType("datetime");
+
+                entity.HasOne(d => d.IdAutorNavigation)
+                    .WithMany(p => p.Album)
+                    .HasForeignKey(d => d.IdAutor)
+                    .HasConstraintName("FK_Album_Author");
             });
 
             modelBuilder.Entity<Author>(entity =>
@@ -41,6 +48,18 @@ namespace VisionamosMusic.Data
                 entity.Property(e => e.Name)
                     .HasMaxLength(100)
                     .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<Car>(entity =>
+            {
+                entity.Property(e => e.Id).ValueGeneratedNever();
+
+                entity.Property(e => e.Date).HasColumnType("datetime");
+
+                entity.HasOne(d => d.IdSongNavigation)
+                    .WithMany(p => p.Car)
+                    .HasForeignKey(d => d.IdSong)
+                    .HasConstraintName("FK_Car_Song");
             });
 
             modelBuilder.Entity<Song>(entity =>
@@ -60,6 +79,27 @@ namespace VisionamosMusic.Data
                     .WithMany(p => p.Song)
                     .HasForeignKey(d => d.Author)
                     .HasConstraintName("FK_Song_Author");
+            });
+
+            modelBuilder.Entity<Users>(entity =>
+            {
+                entity.Property(e => e.Id).ValueGeneratedNever();
+
+                entity.Property(e => e.Contrasena)
+                    .HasMaxLength(15)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.EsAdmin)
+                    .HasMaxLength(5)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Nombre)
+                    .HasMaxLength(150)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Usuario)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
             });
         }
     }

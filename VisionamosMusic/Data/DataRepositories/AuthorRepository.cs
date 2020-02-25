@@ -12,7 +12,7 @@ namespace VisionamosMusic.Data.DataRepositories
     /// Fecha: 24/02/2020
     /// Descripcion: Clase que se encarga de administrar los datos de la tabla Author en la base de datos
     /// </summary>
-    public class AuthorRepository : IRepository<Author>, IAuthorRepository
+    public class AuthorRepository : IAuthorRepository
     {
         #region Propiedades
         private readonly VisionamosMusicDBContext _visionamosMusicDBContext;

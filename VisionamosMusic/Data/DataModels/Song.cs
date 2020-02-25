@@ -12,6 +12,10 @@ namespace VisionamosMusic.Data.DataModels
     /// </summary>
     public partial class Song
     {
+        public Song()
+        {
+            Car = new HashSet<Car>();
+        }
         /// <summary>
         /// Identificador de la cancion
         /// </summary>
@@ -36,5 +40,6 @@ namespace VisionamosMusic.Data.DataModels
         /// Relaciona el autor con la cancion
         /// </summary>
         public virtual Author AuthorNavigation { get; set; }
+        public virtual ICollection<Car> Car { get; set; }
     }
 }

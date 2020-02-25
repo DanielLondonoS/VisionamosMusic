@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using VisionamosMusic.Models;
 
 namespace VisionamosMusic.Services.Interfaces
 {
@@ -12,5 +13,7 @@ namespace VisionamosMusic.Services.Interfaces
     /// </summary>
     public interface IAuthorService
     {
+        Task<(bool Resultado, string Mensaje, List<AuthorModel> items)> GetListAuthor();
+        Task<(bool Resultado, string Mensaje, AuthorModel item)> AddNewAuthor(AuthorModel author);
     }
 }

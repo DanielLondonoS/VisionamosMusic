@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using VisionamosMusic.Data.DataRepositories.Interfaces;
+using VisionamosMusic.Mappers;
+using VisionamosMusic.Models;
 using VisionamosMusic.Services.Interfaces;
 
 namespace VisionamosMusic.Services
@@ -22,12 +24,58 @@ namespace VisionamosMusic.Services
         {
             this._authorRepository = authorRepository;
         }
-        #region
+        #endregion
         #region Metodos Publicos
+        public async Task<(bool Resultado, string Mensaje, List<AuthorModel> items)> GetListAuthor()
+        {
+            try
+            {
+                var result = await this._authorRepository.GetAll();
+                if (result.Resultado)
+                {
+                    return (true, "Se recupero listado de Author:", AuthorMapper.map(result.items));
+                }
+                else
+                {
+                    return (false, "Ocurrio un problema en el repositorio: RAZON:" + result.Mensaje, null);
+                }
+            }
+            catch (Exception ex)
+            {
+                return (false, "Error al Obtener el listado de Authors: Messaje :" + ex.Message + " | " + ex.InnerException, null);
+            }
+        }
+        public async Task<(bool Resultado, string Mensaje, AuthorModel item)> AddNewAuthor(AuthorModel author)
+        {
+            try
+            {
+                if (author != null)
+                {
+                    var val = AuthorMapper.map(author);
+                    var result = await this._authorRepository.Insert(val);
+                    if (result.Resultado)
+                    {
+                        return (true, "El author se creo exitosamente", AuthorMapper.map(result.item));
+                    }
+                    else
+                    {
+                        return (false, "Ocurrio un problema en el repositorio: RAZON:" + result.Mensaje, null);
+                    }
+                }
+                else
+                {
+                    return (false, "Ocurrio un problema en el modelo", null);
+                }
 
-        #region
+            }
+            catch (Exception ex)
+            {
+                return (false, "Error al Crear un author: Messaje :" + ex.Message + " | " + ex.InnerException, null);
+            }
+        }
+        #endregion
         #region Metodos Privados
 
-        #region
+        #endregion
     }
 }

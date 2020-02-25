@@ -14,6 +14,7 @@ namespace VisionamosMusic.Data.DataModels
     {
         public Author()
         {
+            Album = new HashSet<Album>();
             Song = new HashSet<Song>();
         }
         /// <summary>
@@ -28,5 +29,6 @@ namespace VisionamosMusic.Data.DataModels
         /// Coleccion con canciones relacionadas al autor
         /// </summary>
         public virtual ICollection<Song> Song { get; set; }
+        public virtual ICollection<Album> Album { get; set; }
     }
 }

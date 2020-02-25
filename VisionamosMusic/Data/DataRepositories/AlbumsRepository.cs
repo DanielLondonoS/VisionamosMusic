@@ -13,7 +13,7 @@ namespace VisionamosMusic.Data.DataRepositories
     /// Fecha: 24/02/2020
     /// Descripcion: Clase que se encarga de administrar los datos de la tabla Album en la base de datos
     /// </summary>
-    public class AlbumsRepository : IRepository<Album>, IAlbumRepository
+    public class AlbumsRepository : IAlbumRepository
     {
         #region Propiedades
         private readonly VisionamosMusicDBContext _visionamosMusicDBContext;
@@ -58,7 +58,35 @@ namespace VisionamosMusic.Data.DataRepositories
             {
                 var task = Task.Run(() =>
                 {
-                    var albumList = this._visionamosMusicDBContext.Album.ToList();
+                    var albumList = this._visionamosMusicDBContext.Album
+                    .Join(
+                        this._visionamosMusicDBContext.Author,
+                        album => album.IdAutor,
+                        author => author.Id,
+                      (album, author) => new Album {
+                          Id = album.Id,
+                          IdAutor = album.IdAutor,
+                          Name = album.Name,
+                          PublishDate = album.PublishDate,
+                          IdAutorNavigation = album.IdAutorNavigation,
+                          Song = album.Song
+                      }).ToList();
+                   
+                    //var albumList = (
+                    //// instance from context
+                    //from a in this._visionamosMusicDBContext.Author
+                    //    //join to bring useful data
+                    //join c in this._visionamosMusicDBContext.Album on a.Id equals c.IdAutor
+                    //select new Album
+                    //{
+                    //    Id = c.Id,
+                    //    Name = c.Name,
+                    //    IdAutor = c.IdAutor,
+                    //    IdAutorNavigation = c.IdAutorNavigation,
+                    //    PublishDate = c.PublishDate,
+                    //    Song = c.Song
+
+                    //}).ToList();//this._visionamosMusicDBContext.Album.ToList();
                     if (albumList != null)
                     {
                         return (true, "Listado de albunes encontrados", albumList);
@@ -111,6 +139,7 @@ namespace VisionamosMusic.Data.DataRepositories
                 element.Id = ObtenerMaximoConsecutivo() + 1;
                 await this._visionamosMusicDBContext.AddAsync(element);
                 await this._visionamosMusicDBContext.SaveChangesAsync();
+                
                 return (true, "Album creado exitosamente", element);
             }
             catch (Exception ex)
