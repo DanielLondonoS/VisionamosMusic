@@ -38,12 +38,16 @@ namespace VisionamosMusic
             services.AddScoped<IAlbumRepository,AlbumsRepository>();
             services.AddScoped<IAuthorRepository,AuthorRepository>();
             services.AddScoped<ISongRepository,SongRepository>();
+            services.AddScoped<IUserRepository,UserRepository>();
+            services.AddScoped<ICarRepository,CarRepository>();
             #endregion
 
             #region Servicios
             services.AddScoped<IAlbumService, AlbumService>();
             services.AddScoped<IAuthorService, AuthorService>();
             services.AddScoped<ISongService, SongService>();
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<ICarService, CarService>();
             #endregion
 
             // In production, the Angular files will be served from this directory

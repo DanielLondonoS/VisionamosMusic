@@ -9,8 +9,10 @@ namespace VisionamosMusic.Data.DataModels
     {
         public int Id { get; set; }
         public int? IdSong { get; set; }
+        public int? IdUser { get; set; }
         public DateTime? Date { get; set; }
 
         public virtual Song IdSongNavigation { get; set; }
+        public virtual Users IdUserNavigation { get; set; }
     }
 }

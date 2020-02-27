@@ -60,6 +60,11 @@ namespace VisionamosMusic.Data
                     .WithMany(p => p.Car)
                     .HasForeignKey(d => d.IdSong)
                     .HasConstraintName("FK_Car_Song");
+
+                entity.HasOne(d => d.IdUserNavigation)
+                    .WithMany(p => p.Car)
+                    .HasForeignKey(d => d.IdUser)
+                    .HasConstraintName("FK_Car_User");
             });
 
             modelBuilder.Entity<Song>(entity =>
