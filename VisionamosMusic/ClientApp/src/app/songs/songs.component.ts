@@ -1,25 +1,25 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { ISongs } from 'src/interfaces/ISons';
-import { HttpClient } from '@angular/common/http';
+import { Component } from '@angular/core';
 import { IUsers } from 'src/interfaces/IUsers';
 import { SongsService } from 'src/services/songs.service';
+import { ISongs } from 'src/interfaces/ISons';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  selector: 'app-songs',
+  templateUrl: './songs.component.html',
+  styleUrls:['./songs.component.css']
 })
-export class HomeComponent implements OnInit {
-  public songsList: ISongs[];
-  mensaje: string = "";
+export class SongsComponent {
   datosUsuario: IUsers = { id: 0, nombre: '', contrasena: '', usuario: '', esAdmin: 'N/A' };
-  constructor(public songService:SongsService) {
+  songsList: ISongs[];
+  mensaje: string = "";
+
+  constructor(public songService: SongsService, private route: ActivatedRoute, private router: Router) {
     this.datosUsuario = JSON.parse(localStorage.getItem('usuario'));
     console.log(this.datosUsuario)
     if (this.datosUsuario == undefined || this.datosUsuario == null) {
       this.datosUsuario = { id: 0, nombre: '', contrasena: '', usuario: '', esAdmin: 'N/A' };
     }
-    
   }
 
   ngOnInit() {
@@ -43,6 +43,8 @@ export class HomeComponent implements OnInit {
 
     }
   }
+
+  agregarCancion() {
+    this.router.navigate(['/songs-form', {type:'new'}]);
+  }
 }
-
-

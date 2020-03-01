@@ -49,6 +49,37 @@ namespace VisionamosMusic.Data.DataRepositories
             }
         }
         /// <summary>
+        /// Recupera el listado de albunes de un autor
+        /// </summary>
+        /// <param name="id">identificador del author</param>
+        /// <returns></returns>
+        public async Task<(bool Resultado, string Mensaje, List<Album> item)> GetAlbumByAuthor(int id)
+        {
+            try
+            {
+                var task = Task.Run(() =>
+                {
+                    List<Album> albums = this._visionamosMusicDBContext.Album.Where(a => a.IdAutor == id).ToList();
+
+                    if (albums != null)
+                    {
+                        return (true, "Listado de albunes", albums);
+                    }
+                    else
+                    {
+                        return (false, "No se encontraron albunes", null);
+                    }
+                });
+                return await task;
+            }
+            catch (Exception ex)
+            {
+                return (false, ex.Message + " | " + ex.InnerException,null);
+                
+            };
+        }
+
+        /// <summary>
         /// Recupera todos los albunes de la base de datos
         /// </summary>
         /// <returns>Devuelve el modelo (bool Resultado, string Mensaje, List<Album> item) con la informacion</returns>

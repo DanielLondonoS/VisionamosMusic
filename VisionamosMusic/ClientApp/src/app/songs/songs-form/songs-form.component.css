@@ -1,0 +1,16 @@
+form {
+  background: #0000008c;
+  color: white;
+  width: 300px;
+  margin: auto;
+  padding: 1em;
+  border-radius: 10px;
+}
+
+.form-area-submit {
+  padding: 0.5em;
+  text-align: center;
+}
+.form-area-submit button {
+  margin:0 5px;
+}

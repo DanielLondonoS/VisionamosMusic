@@ -13,5 +13,6 @@ namespace VisionamosMusic.Data.DataRepositories.Interfaces
     /// </summary>
     public interface IUserRepository: IRepository<Users>
     {
+        Task<(bool Resultado, string Mensaje, Users item)> ValidateUser(string usuario, string contrasena);
     }
 }

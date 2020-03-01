@@ -106,6 +106,49 @@ namespace VisionamosMusic.Controllers
             }
 
         }
+
+        [HttpPost]
+        [Route("validarUsuario")]
+        public async Task<ActionResult> ValidarUsuario([FromBody] UserLoginModel model)
+        {
+            try
+            {
+                var resultado = await this._userService.ValidateUser(model);
+                if (resultado.Resultado)
+                {
+                    return new JsonResult(new UserApiModel
+                    {
+
+                        IsSuccess = resultado.Resultado,
+                        Message = resultado.Mensaje,
+                        User = resultado.item,
+                        ListUsers = null
+                    });
+                }
+                else
+                {
+                    return new JsonResult(new UserApiModel
+                    {
+                        IsSuccess = resultado.Resultado,
+                        Message = resultado.Mensaje,
+                        User = null,
+                        ListUsers = null
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+
+                return new JsonResult(new UserApiModel
+                {
+                    IsSuccess = false,
+                    Message = ex.Message + " | " + ex.InnerException,
+                    User = null,
+                    ListUsers = null
+                });
+            }
+
+        }
         #endregion
         #region Metodos Privados
 

@@ -117,7 +117,7 @@ namespace VisionamosMusic.Data.DataRepositories
             {
                 return (false, ex.Message + " | " + ex.InnerException, null);
             }
-        }
+        }        
         /// <summary>
         /// Actualiza la informacion del User
         /// </summary>
@@ -143,6 +143,37 @@ namespace VisionamosMusic.Data.DataRepositories
                 {
                     return (false, "No se encontro Users con el identificador especificado", null);
                 }
+            }
+            catch (Exception ex)
+            {
+                return (false, ex.Message + " | " + ex.InnerException, null);
+            }
+        }
+
+        /// <summary>
+        /// Valida los datos del usuario para el inicio de sesion
+        /// </summary>
+        /// <param name="element">Users a insertar</param>
+        /// <returns>Devuelve el modelo (bool Resultado, string Mensaje, Users item) con la informacion</returns>
+        public async Task<(bool Resultado, string Mensaje, Users item)> ValidateUser(string usuario, string contrasena)
+        {
+            try
+            {
+                var task = Task.Run(() =>
+                {
+                    var _usuario = this._visionamosMusicDBContext.Users.Where(u => u.Usuario == usuario).Where(u => u.Contrasena == contrasena).FirstOrDefault();
+                    if(_usuario != null)
+                    {
+                        return (true, "Users con acceso", _usuario);
+                    }
+                    else
+                    {
+                        return (false, "Users sin acceso", _usuario);
+                    }
+                });
+
+                return await task;
+                
             }
             catch (Exception ex)
             {

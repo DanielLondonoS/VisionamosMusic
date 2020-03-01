@@ -73,6 +73,35 @@ namespace VisionamosMusic.Services
                 return (false, "Error al Crear un Users: Messaje :" + ex.Message + " | " + ex.InnerException, null);
             }
         }
+
+        public async Task<(bool Resultado, string Mensaje, UserModel item)> ValidateUser(UserLoginModel data)
+        {
+            try
+            {
+                if (data != null)
+                {
+                    
+                    var result = await this._userRepository.ValidateUser(data.Usuario, data.Contrasena);
+                    if (result.Resultado)
+                    {
+                        return (true, "El Usuario tiene acceso", UsersMapper.map(result.item));
+                    }
+                    else
+                    {
+                        return (false, "Ocurrio un problema en el repositorio: RAZON:" + result.Mensaje, null);
+                    }
+                }
+                else
+                {
+                    return (false, "Ocurrio un problema en el modelo", null);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return (false, "Error al Crear un Users: Messaje :" + ex.Message + " | " + ex.InnerException, null);
+            }
+        }
         #endregion
         #region Metodos Privados
 

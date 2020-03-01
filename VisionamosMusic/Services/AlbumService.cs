@@ -73,6 +73,29 @@ namespace VisionamosMusic.Services
                 return (false, "Error al Crear un Album: Messaje :" + ex.Message + " | " + ex.InnerException, null);
             }
         }
+
+        public async Task<(bool Resultado, string Mensaje, List<AlbumModel> items)> GetListAlbumsByAuthor(int id)
+        {
+            try
+            {
+                var result = await this._albumRepository.GetAlbumByAuthor(id);
+                if (result.Resultado)
+                {
+                    List<AlbumModel> list = AlbumMapper.map(result.item);
+                    return (true, "Albunes encontrados", list);
+                }
+                else
+                {
+                    return (true, result.Mensaje, null);
+
+                }
+            }
+            catch (Exception ex)
+            {
+                return (false, "Error al Crear un Album: Messaje :" + ex.Message + " | " + ex.InnerException, null);
+
+            }
+        }
         #endregion
         #region Metodos Privados
 

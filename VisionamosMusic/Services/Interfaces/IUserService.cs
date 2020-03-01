@@ -14,6 +14,7 @@ namespace VisionamosMusic.Services.Interfaces
     public interface IUserService
     {
         Task<(bool Resultado, string Mensaje, List<UserModel> items)> GetListUsers();
-        Task<(bool Resultado, string Mensaje, UserModel item)> AddNewUser(UserModel song);
+        Task<(bool Resultado, string Mensaje, UserModel item)> AddNewUser(UserModel user);
+        Task<(bool Resultado, string Mensaje, UserModel item)> ValidateUser(UserLoginModel data);
     }
 }

@@ -64,6 +64,50 @@ namespace VisionamosMusic.Controllers
             }
 
         }
+
+        [HttpGet]
+        [Route("listadoAlbunesPorAutor")]
+        public async Task<ActionResult> ListadoDeAlbunesPorAutor(int id)
+        {
+            try
+            {
+                var resultado = await this._albumService.GetListAlbumsByAuthor(id);
+                if (resultado.Resultado)
+                {
+                    return new JsonResult(new AlbumApiModel
+                    {
+
+                        IsSuccess = resultado.Resultado,
+                        Message = resultado.Mensaje,
+                        Album = null,
+                        ListAlbumns = resultado.items
+                    });
+                }
+                else
+                {
+                    return new JsonResult(new AlbumApiModel
+                    {
+                        IsSuccess = resultado.Resultado,
+                        Message = resultado.Mensaje,
+                        Album = null,
+                        ListAlbumns = null
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+
+                return new JsonResult(new AlbumApiModel
+                {
+                    IsSuccess = false,
+                    Message = ex.Message + " | " + ex.InnerException,
+                    Album = null,
+                    ListAlbumns = null
+                });
+            }
+
+        }
+
         [HttpPost]
         [Route("agregarAlbum")]
         public async Task<ActionResult> AgregarAlbum([FromBody] AlbumModel model)

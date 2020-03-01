@@ -13,5 +13,6 @@ namespace VisionamosMusic.Data.DataRepositories.Interfaces
     /// </summary>
     public interface IAlbumRepository : IRepository<Album>
     {
+        Task<(bool Resultado, string Mensaje, List<Album> item)> GetAlbumByAuthor(int id);
     }
 }

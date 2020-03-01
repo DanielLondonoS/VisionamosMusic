@@ -14,6 +14,7 @@ namespace VisionamosMusic.Services.Interfaces
     public interface IAlbumService
     {
         Task<(bool Resultado, string Mensaje, List<AlbumModel> items)> GetListAlbums();
+        Task<(bool Resultado, string Mensaje, List<AlbumModel> items)> GetListAlbumsByAuthor(int id);
         Task<(bool Resultado, string Mensaje, AlbumModel item)> AddNewAlbum(AlbumModel album);
     }
 }

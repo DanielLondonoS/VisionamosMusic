@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-nav-menu',
@@ -7,12 +7,23 @@ import { Component } from '@angular/core';
 })
 export class NavMenuComponent {
   isExpanded = false;
+  @Input() esAdmin: string;
 
+  constructor() {
+    console.log({mene:this.esAdmin})
+  }
+  
   collapse() {
     this.isExpanded = false;
   }
 
   toggle() {
     this.isExpanded = !this.isExpanded;
+  }
+
+  salir() {
+    this.esAdmin = 'N/A';
+    localStorage.removeItem('usuario')
+    window.location.reload();
   }
 }
